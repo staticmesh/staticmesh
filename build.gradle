@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'project-report'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // This dependency is found on compile classpath of this component and consumers.
+    compile 'com.google.guava:guava:22.0'
+
+    // Use JUnit test framework
+    testCompile 'junit:junit:4.12'
+}
+
+// Define the main class for the application
+mainClassName = 'io.github.staticmesh.App'
+
+
+// JavaDoc 8 problems
+javadoc { failOnError false }
+
+// startScripts are called before buildZip and buildTar
+startScripts {
+    doLast {
+        println "Executing after startScripts"
+        // copy readme
+        copy {
+            from './'
+            include 'README.md'
+            into '/src/dist'
+        }
+    }
+}
